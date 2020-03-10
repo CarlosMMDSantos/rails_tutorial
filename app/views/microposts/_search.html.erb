@@ -1,0 +1,47 @@
+<%= form_with(local: true, method: "get", url: targetPath) do |s| %>
+    <p>
+        <div class="row">
+            <div class="col">
+                <%= s.label "Order Date By:" %>
+            </div>
+            <div class="col">
+                <%= s.label :order, "Ascending", :value => "ascending"  %>
+                <%= s.radio_button :order, "ascending", :checked => @search[:order] == "ascending" %>
+            </div>
+            <div class="col">
+                <%= s.label :order, "Descending", :value => "descending" %>
+                <%= s.radio_button :order, "descending", :checked => @search[:order] == "descending" %>
+            </div>
+        </div>
+    </p>
+    <p>
+        <div class="row">
+            <div class="col">
+                <%= s.label "Filter Date:" %>
+            </div>
+            <div class="col">
+                <%= s.label "Date:" %>
+                <%= s.date_field :date, :value => @search[:date] %>
+            </div>
+            <div class="col">
+                <%= s.label :is_before, "Before" %>
+                <%= s.radio_button :is_before, true, :checked => @search[:is_before].to_s == "true" %>
+            </div>
+            <div class="col">
+                <%= s.label :is_before, "After" %>
+                <%= s.radio_button :is_before, false, :checked => @search[:is_before].to_s == "false" %>
+            </div>
+        </div>
+    </p>
+    <p>
+        <div class="row">
+            <div class="col">
+                <div class="col">
+                    <%= s.label "Tags (comma separated):" %>
+                    <%= s.text_field :tags, :value => @search[:tags] %>
+                </div>
+            </div>
+        </div>
+    </p>
+    <%= s.submit "Search", class: "btn btn-primary" %>
+<% end %>

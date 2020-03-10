@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_with(model: @user, local: true) do |f| %>
+    
+    <%= render 'shared/error_messages', object: f.object %>
+    
+    <%= f.label :name %>
+    <%= f.text_field :name, class: 'form-control' %>
+    
+    <%= f.label :email %>
+    <%= f.email_field :email, class: 'form-control' %>
+
+    <%= fields_for :address, @user.address do |address_fields| %>
+
+      <%= address_fields.label :address %>
+      <%= address_fields.text_field :address, class: 'form-control' %>
+
+      <%= address_fields.label :city %>
+      <%= address_fields.text_field :city, class: 'form-control' %>
+
+      <%= address_fields.label :zip_code %>
+      <%= address_fields.text_field :zip_code, class: 'form-control' %>
+
+      <%= address_fields.label :country %>
+      <%= address_fields.text_field :country, class: 'form-control' %>
+
+    <% end %>
+
+    <%= f.label :phone %>
+    <%= f.number_field :phone, class: 'form-control' %>
+    
+    <%= f.label :password %>
+    <%= f.password_field :password, class: 'form-control' %>
+    
+    <%= f.label :password_confirmation, "Confirmation" %>
+    <%= f.password_field :password_confirmation, class: 'form-control' %>
+    
+    <%= f.submit "Save changes", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

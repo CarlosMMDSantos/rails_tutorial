@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <%= gravatar_for @user %>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @user.address.to_s unless @user.address.nil? %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @user.phone %>
+</p>
+
+<p>
+  <strong>Created at:</strong>
+  <%= @user.created_at %>
+</p>
+
+<p>
+  <strong>Updated at:</strong>
+  <%= @user.updated_at %>
+</p>
+
+<p>
+  <%= render 'follow_form' if logged_in? %>
+</p>
+
+<p>
+  <h1>Posts</h1>
+  <%= render 'microposts/search', targetPath: user_path(current_user) %>
+  <ol class="microposts">
+    <%= render @microposts %>
+  </ol>
+  <%= will_paginate @microposts %>
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
