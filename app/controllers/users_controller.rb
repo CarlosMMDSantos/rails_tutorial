@@ -28,6 +28,11 @@ class UsersController < ApplicationController
       microposts.where!("DATE(microposts.created_at) #{condition} DATE('#{@search[:date]}')")
     end
 
+    unless @search[:tags].blank?
+      tags = @search[:tags].split(",").map { |item| item.strip }
+      microposts.joins!(:tags).where!("tags.content IN (#{tags.map{|item| "'#{item}'"}.join(",")})")
+    end
+
     unless @search[:order].blank?
       if @search[:order] == "ascending"
         microposts.reorder!(created_at: :asc)
@@ -143,7 +148,7 @@ class UsersController < ApplicationController
     end
 
     def search_params
-      params.permit(:order, :date, :is_before)
+      params.permit(:order, :date, :is_before, :tags)
     end
 
     # Confirms the correct user.
