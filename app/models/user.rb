@@ -22,8 +22,7 @@ class User < ApplicationRecord
     end
 
     def feed
-        part_of_feed = "relationships.follower_id = :id or microposts.user_id = :id"
-        Micropost.includes(:image_attachment, :user, :tags).joins(user: :followers).where(part_of_feed, { id: id }).group("microposts.id")
+        Micropost.includes(:image_attachment, :user, :tags).where(user: followers + [self])
     end
 
     # Follows a user.
