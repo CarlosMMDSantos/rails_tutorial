@@ -1,7 +1,6 @@
 class MicropostsController < ApplicationController
   before_action :logged_in_user, only: [:create, :destroy]
   before_action :correct_user, only: [:destroy]
-  before_action :set_micropost, only: [:edit, :update, :destroy]
 
   # GET /microposts
   # GET /microposts.json
@@ -12,10 +11,6 @@ class MicropostsController < ApplicationController
   # GET /microposts/new
   def new
     @micropost = Micropost.new
-  end
-
-  # GET /microposts/1/edit
-  def edit
   end
 
   # POST /microposts
@@ -45,23 +40,10 @@ class MicropostsController < ApplicationController
     redirect_to root_url
   end
 
-  # PATCH/PUT /microposts/1
-  # PATCH/PUT /microposts/1.json
-  def update
-    respond_to do |format|
-      if @micropost.update(micropost_params)
-        format.html { redirect_to @micropost, notice: 'Micropost was successfully updated.' }
-        format.json { render :show, status: :ok, location: @micropost }
-      else
-        format.html { render :edit }
-        format.json { render json: @micropost.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   # DELETE /microposts/1
   # DELETE /microposts/1.json
   def destroy
+    @micropost = Micropost.find(params[:id])
     @micropost.destroy
     flash[:success] = "Micropost deleted"
     redirect_to request.referrer || root_url
