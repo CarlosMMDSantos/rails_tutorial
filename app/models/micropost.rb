@@ -11,6 +11,7 @@ class Micropost < ApplicationRecord
 
     has_one_attached :image
     default_scope -> { order(created_at: :desc) }
+    scope :for_user, -> (user) { where(user: user.followers + [user]) }
 
     # Returns a resized image for display.
     def display_image
