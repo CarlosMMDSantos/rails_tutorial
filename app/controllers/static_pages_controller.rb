@@ -20,7 +20,7 @@ class StaticPagesController < ApplicationController
       unless @search[:tags].blank?
         tags = @search[:tags].split(",").map { |item| item.strip }
 
-        microposts = current_user.feed.joins(:tags).where(tags: {content: tags}).having("COUNT(microposts.id) = ?", tags.size).group("microposts.id")
+        microposts = Micropost.where(user: current_user.followers + [current_user]).joins(:tags).where(tags: {content: tags}).having("COUNT(microposts.id) = ?", tags.size).group("microposts.id")
         
         userFeed.where!(id: microposts.map(&:id))
       end
