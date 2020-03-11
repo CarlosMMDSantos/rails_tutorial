@@ -2,12 +2,6 @@ class MicropostsController < ApplicationController
   before_action :logged_in_user, only: [:create, :destroy]
   before_action :correct_user, only: [:destroy]
 
-  # GET /microposts
-  # GET /microposts.json
-  def index
-    @microposts = Micropost.all
-  end
-
   # GET /microposts/new
   def new
     @micropost = Micropost.new
@@ -26,13 +20,13 @@ class MicropostsController < ApplicationController
 
     unless params[:micropost][:tags_list].blank?
       tags = params[:micropost][:tags_list].split(",").map { |item| item.strip }
-      tagIds = []
+      tag_list = []
       tags.each do |tag|
         tagAux = Tag.find_or_create_by(content: tag)
-        tagIds << tagAux
+        tag_list << tagAux
       end
       
-      @micropost.addTag(tagIds)
+      @micropost.addTag(tag_list)
       
     end
 

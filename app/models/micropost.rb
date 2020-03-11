@@ -6,8 +6,8 @@ class Micropost < ApplicationRecord
  
     belongs_to :user
 
-    has_many :tag_relations, class_name: "TagsPostsRelationship", dependent: :destroy
-    has_many :tags, through: :tag_relations
+    has_many :tags_posts_relationships, dependent: :destroy
+    has_many :tags, through: :tags_posts_relationships
 
     has_one_attached :image
     default_scope -> { order(created_at: :desc) }

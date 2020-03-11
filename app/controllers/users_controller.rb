@@ -30,7 +30,10 @@ class UsersController < ApplicationController
 
     unless @search[:tags].blank?
       tags = @search[:tags].split(",").map { |item| item.strip }
-      microposts.joins!(:tags).where!("tags.content IN (#{tags.map{|item| "'#{item}'"}.join(",")})")
+
+      micropostsIds = Micropost.all.joins!(:tags).where!(tags: {content: tags}).having!("COUNT(microposts.id) = ?", tags.size).group!("microposts.id")
+
+      microposts.where!(id: micropostsIds.map(&:id))
     end
 
     unless @search[:order].blank?
@@ -148,7 +151,7 @@ class UsersController < ApplicationController
     end
 
     def search_params
-      params.permit(:order, :date, :is_before, :tags)
+      params.permit(:order, :date, :is_before, :tags, :page)
     end
 
     # Confirms the correct user.

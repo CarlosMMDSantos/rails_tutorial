@@ -4,7 +4,7 @@
     <span class="content">
         <%= micropost.content %>
         <p>
-            Tags: <%= micropost.tags.map(&:content).join(", ") %>
+            Tags: <%= micropost.tags.join(", ") %>
         </p>
         <%= image_tag micropost.display_image if micropost.image.attached? %>
     </span>

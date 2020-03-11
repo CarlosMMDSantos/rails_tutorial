@@ -10,7 +10,7 @@
     <div class="col-md-8">
         <%= render 'users/follow_form' if logged_in? %>
         <% if @user.microposts.any? %>
-            <h3>Microposts (<%= @user.microposts.count %>)</h3>
+            <h3>Microposts (<%= @user.feed.count %>)</h3>
 
             <%= render 'microposts/search', targetPath: root_path %>
 

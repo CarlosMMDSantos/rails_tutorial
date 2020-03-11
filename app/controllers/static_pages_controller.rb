@@ -19,7 +19,10 @@ class StaticPagesController < ApplicationController
 
       unless @search[:tags].blank?
         tags = @search[:tags].split(",").map { |item| item.strip }
-        userFeed.joins!(:tags).where!("tags.content IN (#{tags.map{|item| "'#{item}'"}.join(",")})")
+
+        microposts = Micropost.all.joins!(:tags).where!(tags: {content: tags}).having!("COUNT(microposts.id) = ?", tags.size).group!("microposts.id")
+        
+        userFeed.where!(id: microposts.map(&:id))
       end
 
       unless @search[:order].blank?
@@ -46,7 +49,7 @@ class StaticPagesController < ApplicationController
 
   private
     def search_params
-      params.permit(:order, :date, :is_before, :tags)
+      params.permit(:order, :date, :is_before, :tags, :page)
     end
 
 end
